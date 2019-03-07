@@ -56,7 +56,7 @@ Options:
                         Same as -d <tab>. Just a shorthand for handling
                         standard tab delimited file You can use $'\t' if you
                         want (this is how Linux expects to provide tabs in the
-                        command line)
+                        command line
     -e ENCODING, --encoding=ENCODING
                         Input file encoding. Defaults to UTF-8. set to none
                         for not setting any encoding - faster, but at your own
@@ -67,8 +67,8 @@ Options:
                         data types
     -m MODE, --mode=MODE
                         Data parsing mode. fluffy, relaxed and strict. In
-                        strict mode, the -c column-count parameter must 
-                        be supplied as well
+                        strict mode, the -c column-count parameter must be
+                        supplied as well
     -c COLUMN_COUNT, --column-count=COLUMN_COUNT
                         Specific column count when using relaxed or strict
                         mode
@@ -77,6 +77,20 @@ Options:
                         strips leading whitespace off values, in order to
                         provide out-of-the-box usability for simple use cases.
                         If you need to preserve whitespace, use this flag.
+    --disable-double-double-quoting
+                        Disable support for double double-quoting for escaping
+                        the double quote character. By default, you can use ""
+                        inside double quoted fields to escape double quotes.
+                        Mainly for backward compatibility.
+    --disable-escaped-double-quoting
+                        Disable support for escaped double-quoting for
+                        escaping the double quote character. By default, you
+                        can use \" inside double quoted fields to escape
+                        double quotes. Mainly for backward compatibility.
+    -w INPUT_QUOTING_MODE, --input-quoting-mode=INPUT_QUOTING_MODE
+                        Input quoting mode. Possible values are all, minimal
+                        and none. Note the slightly misleading parameter name,
+                        and see the matching -W parameter for output quoting.
 
   Output Options:
     -D OUTPUT_DELIMITER, --output-delimiter=OUTPUT_DELIMITER
@@ -84,7 +98,7 @@ Options:
                         the -d delimiter is used if present, or space if no
                         delimiter is specified
     -T, --tab-delimited-output
-                        Same as -D <tab>. Just a shorthand for outputing tab
+                        Same as -D <tab>. Just a shorthand for outputting tab
                         delimited output. You can use -D $'\t' if you want.
     -O, --output-header
                         Output header line. Output column-names are determined
@@ -102,6 +116,11 @@ Options:
     -E OUTPUT_ENCODING, --output-encoding=OUTPUT_ENCODING
                         Output encoding. Defaults to 'none', leading to
                         selecting the system/terminal encoding
+    -W OUTPUT_QUOTING_MODE, --output-quoting-mode=OUTPUT_QUOTING_MODE
+                        Output quoting mode. Possible values are all, minimal,
+                        nonnumeric and none. Note the slightly misleading
+                        parameter name, and see the matching -w parameter for
+                        input quoting.
 
   Query Related Options:
     -q QUERY_FILENAME, --query-filename=QUERY_FILENAME
@@ -111,7 +130,6 @@ Options:
     -Q QUERY_ENCODING, --query-encoding=QUERY_ENCODING
                         query text encoding. Experimental. Please send your
                         feedback on this
-
 ````
 
 ### Table names
@@ -128,8 +146,8 @@ Files with .gz extension are considered to be gzipped and decompressed on the fl
 q supports multiple parsing modes:
 
 * `relaxed` - This is the default mode. It tries to lean towards simplicity of use. When a row doesn't contains enough columns, they'll be filled with nulls, and when there are too many, the extra values will be merged to the last column. Defining the number of expected columns in this mode is done using the `-c` parameter. If it is not provided, then the number of columns is detected automatically (In most use cases, there is no need to specify `-c`)
-* `strict` - Strict mode is for hardcoce csv/tsv parsing. Whenever a row doesn't contain the proper number of columns, processing will stop. `-c` must be provided when using this mode
-* `fluffy` - This mode should not be used, and is just some kind of "backward compatible" parsing mode which was used by q previously. It's left as a separate parsing mode on purpose, in order to accomodate existing users. If you are such a user, please open a bug for your use case, and I'll see how I can incorporate it into the other modes. It is reasonable to say that this mode will be removed in the future.
+* `strict` - Strict mode is for hardcore csv/tsv parsing. Whenever a row doesn't contain the proper number of columns, processing will stop. `-c` must be provided when using this mode
+* `fluffy` - This mode should not be used, and is just some kind of "backward compatible" parsing mode which was used by q previously. It's left as a separate parsing mode on purpose, in order to accommodate existing users. If you are such a user, please open a bug for your use case, and I'll see how I can incorporate it into the other modes. It is reasonable to say that this mode will be removed in the future.
 
 ### Output formatting option
 The format of F is as a list of X=f separated by commas, where X is a column number and f is a python format:
